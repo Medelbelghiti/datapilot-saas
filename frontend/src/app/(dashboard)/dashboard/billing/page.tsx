@@ -83,13 +83,26 @@ function BillingContent() {
       } = await supabase.auth.getSession();
       const token = session?.access_token || "";
 
+      const timeout = (ms: number) =>
+        new Promise<Response>((_, reject) =>
+          setTimeout(() => reject(new Error("Request timeout")), ms)
+        );
+
+      const fetchJson = async (url: string) => {
+        try {
+          const res = await Promise.race([
+            fetch(url, { headers: { Authorization: `Bearer ${token}` } }),
+            timeout(8000),
+          ]);
+          return await res.json();
+        } catch {
+          return {};
+        }
+      };
+
       const [subRes, usageRes] = await Promise.all([
-        fetch(`${backendUrl}/api/subscription`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }).then((r) => r.json()),
-        fetch(`${backendUrl}/api/usage`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }).then((r) => r.json()),
+        fetchJson(`${backendUrl}/api/subscription`),
+        fetchJson(`${backendUrl}/api/usage`),
       ]);
 
       if (subRes.plan) setPlan(subRes.plan);

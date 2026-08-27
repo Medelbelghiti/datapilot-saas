@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: datapilot-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: POLAR_ACCESS_TOKEN
+        sync: false
+      - key: POLAR_ORGANIZATION_ID
+        sync: false
+      - key: POLAR_PRO_MONTHLY_PRODUCT_ID
+        sync: false
+      - key: POLAR_PRO_YEARLY_PRODUCT_ID
+        sync: false
+      - key: POLAR_BUSINESS_PRODUCT_ID
+        sync: false
+      - key: POLAR_WEBHOOK_SECRET
+        sync: false
+      - key: POLAR_ENV
+        value: production
+      - key: FRONTEND_URL
+        value: https://your-app.vercel.app
+      - key: DATABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_ADMIN_EMAILS
+        sync: false

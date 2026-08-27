@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_BACKEND_URL=http://backend:8000
+      - NEXT_PUBLIC_ADMIN_EMAILS=${NEXT_PUBLIC_ADMIN_EMAILS}
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - POLAR_ACCESS_TOKEN=${POLAR_ACCESS_TOKEN}
+      - POLAR_ORGANIZATION_ID=${POLAR_ORGANIZATION_ID}
+      - POLAR_PRO_MONTHLY_PRODUCT_ID=${POLAR_PRO_MONTHLY_PRODUCT_ID}
+      - POLAR_PRO_YEARLY_PRODUCT_ID=${POLAR_PRO_YEARLY_PRODUCT_ID}
+      - POLAR_BUSINESS_PRODUCT_ID=${POLAR_BUSINESS_PRODUCT_ID}
+      - POLAR_WEBHOOK_SECRET=${POLAR_WEBHOOK_SECRET}
+      - POLAR_ENV=${POLAR_ENV}
+      - NEXT_PUBLIC_PRO_MONTHLY_ID=${NEXT_PUBLIC_PRO_MONTHLY_ID}
+      - NEXT_PUBLIC_PRO_YEARLY_ID=${NEXT_PUBLIC_PRO_YEARLY_ID}
+      - NEXT_PUBLIC_BUSINESS_ID=${NEXT_PUBLIC_BUSINESS_ID}
+      - FRONTEND_URL=http://localhost:3000
+      - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - upload_data:/app/uploads
+    restart: unless-stopped
+
+volumes:
+  upload_data:

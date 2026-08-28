@@ -2,17 +2,20 @@ services:
   - type: web
     name: datapilot-backend
     runtime: python
+    rootDir: backend
+    healthCheckPath: /api/health
+    autoDeploy: true
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: NEXT_PUBLIC_SUPABASE_URL
-        sync: false
+        value: https://hpwfaxxlyemdulezvwxh.supabase.co
       - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
         sync: false
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
       - key: SUPABASE_JWT_SECRET
-        sync: false
+        value: 5b680ae5-6164-4ade-b4ba-f077735d586f
       - key: OPENAI_API_KEY
         sync: false
       - key: POLAR_ACCESS_TOKEN
@@ -20,18 +23,18 @@ services:
       - key: POLAR_ORGANIZATION_ID
         sync: false
       - key: POLAR_PRO_MONTHLY_PRODUCT_ID
-        sync: false
+        value: 5a5d3759-7d82-4b42-a8c3-8dc1b38607d7
       - key: POLAR_PRO_YEARLY_PRODUCT_ID
-        sync: false
+        value: b287ed1a-1160-4c93-bd78-e1d0ac433183
       - key: POLAR_BUSINESS_PRODUCT_ID
-        sync: false
+        value: 4aa72a7a-e858-4de8-b6b5-2d6a94ed8ded
       - key: POLAR_WEBHOOK_SECRET
         sync: false
       - key: POLAR_ENV
         value: production
       - key: FRONTEND_URL
-        value: https://your-app.vercel.app
+        value: https://frontend-beta-taupe-55.vercel.app
       - key: DATABASE_URL
         sync: false
       - key: NEXT_PUBLIC_ADMIN_EMAILS
-        sync: false
+        value: mohammed99.elbelghiti@gmail.com
